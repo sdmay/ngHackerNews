@@ -16,15 +16,9 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 
 app.use(morgan('dev'));
-mongoose.connect(process.env.MONGODB_URI);
-const db = mongoose.connection;
-(<any>mongoose).Promise = global.Promise;
 
-db.on('error', console.error.bind(console, 'connection error:'));
-db.once('open', () => {
-  console.log('Connected to MongoDB');
 
-  setRoutes(app);
+setRoutes(app);
 
   app.get('/*', function(req, res) {
     res.sendFile(path.join(__dirname, '../public/index.html'));
@@ -33,7 +27,5 @@ db.once('open', () => {
   app.listen(app.get('port'), () => {
     console.log('Angular Full Stack listening on port ' + app.get('port'));
   });
-
-});
 
 export { app };
